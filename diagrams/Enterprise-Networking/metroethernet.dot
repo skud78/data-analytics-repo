@@ -1,0 +1,29 @@
+digraph MetroEthernetEnhanced {
+  rankdir=LR;
+  node [shape=box, style=filled, fontsize=10];
+
+  // Customer Sites
+  CE1 [label="CE1\nBranch A", fillcolor=lightyellow];
+  CE2 [label="CE2\nBranch B", fillcolor=lightyellow];
+  CE3 [label="CE3\nHQ", fillcolor=lightyellow];
+
+  // Provider Edge
+  PE1 [label="PE1\nMetro Access\nQinQ Enabled", fillcolor=lightblue];
+  PE2 [label="PE2\nMetro Access\nQinQ Enabled", fillcolor=lightblue];
+  PE3 [label="PE3\nMetro Access\nQinQ Enabled", fillcolor=lightblue];
+
+  // Metro Core
+  Core [label="Metro Ethernet Core\nSwitch Fabric", fillcolor=lightgray];
+  SLA [label="SLA Probe\nLatency/Jitter/Loss", shape=ellipse, fillcolor=orange];
+
+  // Connections
+  CE1 -> PE1 [label="Ethernet UNI\nVLAN 100"];
+  CE2 -> PE2 [label="Ethernet UNI\nVLAN 200"];
+  CE3 -> PE3 [label="Ethernet UNI\nVLAN 300"];
+
+  PE1 -> Core [label="QinQ\nS-Tag: 10\nC-Tag: 100"];
+  PE2 -> Core [label="QinQ\nS-Tag: 10\nC-Tag: 200"];
+  PE3 -> Core [label="QinQ\nS-Tag: 10\nC-Tag: 300"];
+
+  Core -> SLA [label="Active Monitoring"];
+}

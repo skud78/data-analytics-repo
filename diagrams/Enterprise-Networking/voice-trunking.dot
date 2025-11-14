@@ -1,0 +1,31 @@
+digraph VoiceTrunkingEnhanced {
+  rankdir=LR;
+  node [shape=box, style=filled, fontsize=10];
+
+  // Enterprise UC Systems
+  Teams [label="Microsoft Teams", fillcolor=lightyellow];
+  Zoom [label="Zoom Phone", fillcolor=lightyellow];
+  PBX [label="Enterprise IP-PBX", fillcolor=lightyellow];
+  SIP_GW [label="SIP Gateway", fillcolor=lightblue];
+  FW [label="Enterprise Firewall", fillcolor=orange];
+
+  // Provider Edge
+  SBC1 [label="Provider SBC 1", fillcolor=lightgray];
+  SBC2 [label="Provider SBC 2", fillcolor=lightgray];
+  NPDB [label="Number Portability DB", shape=ellipse, fillcolor=lightblue];
+  PSTN [label="PSTN / Mobile Networks", fillcolor=white];
+
+  // Enterprise Connections
+  Teams -> SIP_GW [label="Direct Routing (SIP)"];
+  Zoom -> SIP_GW [label="SIP Trunk"];
+  PBX -> SIP_GW [label="SIP / PRI"];
+  SIP_GW -> FW [label="SIP Signaling / RTP"];
+  FW -> SBC1 [label="Primary Trunk"];
+  FW -> SBC2 [label="Backup Trunk", style=dashed];
+
+  // Provider Core
+  SBC1 -> NPDB [label="Number Lookup"];
+  SBC2 -> NPDB [label="Number Lookup"];
+  SBC1 -> PSTN [label="Call Termination"];
+  SBC2 -> PSTN [label="Call Termination"];
+}

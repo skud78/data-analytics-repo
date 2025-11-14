@@ -1,0 +1,15 @@
+digraph L2VPN {
+  rankdir=LR;
+  node [shape=box, style=filled, fillcolor=lightyellow];
+
+  CE1 [label="CE1\nSite A"];
+  CE2 [label="CE2\nSite B"];
+  PE1 [label="PE1\nProvider Edge"];
+  PE2 [label="PE2\nProvider Edge"];
+  Core [label="Provider Core", fillcolor=lightgray];
+
+  CE1 -> PE1 [label="Ethernet"];
+  CE2 -> PE2 [label="Ethernet"];
+  PE1 -> Core [label="Pseudowire / VPLS"];
+  PE2 -> Core [label="Pseudowire / VPLS"];
+}

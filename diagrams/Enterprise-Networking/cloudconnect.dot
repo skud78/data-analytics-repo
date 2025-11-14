@@ -1,0 +1,11 @@
+digraph CloudConnect {
+  rankdir=LR;
+  node [shape=box, style=filled, fillcolor=lightblue];
+
+  CE [label="Customer Edge"];
+  PE [label="Provider Edge"];
+  Cloud [label="Cloud Gateway\n(AWS/Azure/GCP)", fillcolor=lightgray];
+
+  CE -> PE [label="L2/L3 Handoff"];
+  PE -> Cloud [label="Private Interconnect"];
+}

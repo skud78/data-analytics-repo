@@ -1,0 +1,11 @@
+digraph WholesaleEthernet {
+  rankdir=LR;
+  node [shape=box, style=filled, fillcolor=lightyellow];
+
+  CarrierA_CE [label="Carrier A CE"];
+  CarrierB_PE [label="Carrier B PE"];
+  QinQ [label="802.1ad QinQ Trunk", fillcolor=lightgray];
+
+  CarrierA_CE -> QinQ [label="Customer VLANs"];
+  QinQ -> CarrierB_PE [label="Service Multiplexing"];
+}

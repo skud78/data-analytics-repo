@@ -1,0 +1,53 @@
+digraph DataCentreMigration {
+  rankdir=LR;
+  node [shape=box, style=filled, fillcolor=lightgrey];
+
+  // As-Is Architecture
+  subgraph cluster_as_is {
+    label = "As-Is: Old Data Centre";
+    style=filled;
+    color=lightblue;
+
+    CustA_old [label="Cust-A\nDIA\nVLAN 100", shape=ellipse];
+    CustB_old [label="Cust-B\nMPLS\nVLAN 200", shape=ellipse];
+    CustC_old [label="Cust-C\nBroadband\nVLAN 300", shape=ellipse];
+    L3Router_old [label="Layer 3 Router"];
+    Internet_old [label="Internet"];
+    MPLS_old [label="MPLS Core"];
+    Broadband_old [label="Broadband Gateway"];
+
+    CustA_old -> L3Router_old [label="IP Routing / NAT / BGP"];
+    CustB_old -> L3Router_old [label="VRF / MPLS"];
+    CustC_old -> L3Router_old [label="DHCP / NAT"];
+
+    L3Router_old -> Internet_old;
+    L3Router_old -> MPLS_old;
+    L3Router_old -> Broadband_old;
+  }
+
+  // To-Be Architecture
+  subgraph cluster_to_be {
+    label = "To-Be: New Data Centre";
+    style=filled;
+    color=lightgreen;
+
+    CustA_new [label="Cust-A\nDIA\nVLAN 100", shape=ellipse];
+    CustB_new [label="Cust-B\nMPLS\nVLAN 200", shape=ellipse];
+    CustC_new [label="Cust-C\nBroadband\nVLAN 300", shape=ellipse];
+    SatelliteSwitch [label="Satellite Switch"];
+    RemoteRouter [label="Remote Layer 3 Router"];
+    Internet_new [label="Internet"];
+    MPLS_new [label="MPLS Core"];
+    Broadband_new [label="Broadband Gateway"];
+
+    CustA_new -> SatelliteSwitch;
+    CustB_new -> SatelliteSwitch;
+    CustC_new -> SatelliteSwitch;
+
+    SatelliteSwitch -> RemoteRouter [label="Trunking / QinQ / EVPN / L2 X-Connect"];
+
+    RemoteRouter -> Internet_new [label="Routed / NAT / BGP"];
+    RemoteRouter -> MPLS_new [label="Routed / MPLS VPN"];
+    RemoteRouter -> Broadband_new [label="Routed / NAT / DHCP"];
+  }
+}

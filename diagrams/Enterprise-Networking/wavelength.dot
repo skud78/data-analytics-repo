@@ -1,0 +1,11 @@
+digraph Wavelength {
+  rankdir=LR;
+  node [shape=box, style=filled, fillcolor=lightgreen];
+
+  SiteA [label="Site A"];
+  SiteB [label="Site B"];
+  DWDM [label="DWDM System", fillcolor=lightgray];
+
+  SiteA -> DWDM [label="10G/100G Wavelength"];
+  SiteB -> DWDM [label="10G/100G Wavelength"];
+}

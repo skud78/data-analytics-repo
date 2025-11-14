@@ -1,0 +1,26 @@
+digraph DIA_L2_L3 {
+  rankdir=TB;
+  node [shape=box, style=filled, fontsize=10];
+
+  // Layer 2 DIA Path
+  CE_L2 [label="Customer Edge\n(Layer 2)", fillcolor=lightyellow];
+  FW_L2 [label="Firewall\nCustomer-managed", fillcolor=orange];
+  PE_L2 [label="Provider Edge\nLayer 2 Switch", fillcolor=lightblue];
+  GW_L2 [label="Provider IP Gateway\nLayer 3 Termination", fillcolor=lightgray];
+  Internet [label="Internet", fillcolor=white];
+
+  // Layer 3 DIA Path
+  CE_L3 [label="Customer Edge\n(Layer 3)", fillcolor=lightyellow];
+  FW_L3 [label="Firewall\nOptional", fillcolor=orange];
+  PE_L3 [label="Provider Edge\nLayer 3 Router", fillcolor=lightblue];
+
+  // Layer 2 Flow
+  CE_L2 -> FW_L2 [label="Ethernet"];
+  FW_L2 -> PE_L2 [label="VLAN / QinQ"];
+  PE_L2 -> GW_L2 [label="Bridged Circuit"];
+  GW_L2 -> Internet [label="IP Routing / NAT"];
+
+  // Layer 3 Flow
+  CE_L3 -> PE_L3 [label="Routed IP\n/30 or /29"];
+  PE_L3 -> Internet [label="Default Route / BGP"];
+}

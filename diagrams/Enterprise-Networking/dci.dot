@@ -1,0 +1,11 @@
+digraph DCI {
+  rankdir=LR;
+  node [shape=box, style=filled, fillcolor=lightgreen];
+
+  DC1 [label="Data Center A"];
+  DC2 [label="Data Center B"];
+  DCI [label="DCI Transport\n(OTN / DWDM)", fillcolor=lightgray];
+
+  DC1 -> DCI [label="10G/100G Ethernet"];
+  DC2 -> DCI [label="10G/100G Ethernet"];
+}
