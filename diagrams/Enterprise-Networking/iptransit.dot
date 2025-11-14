@@ -1,0 +1,31 @@
+digraph IPTransitTE {
+  rankdir=LR;
+  node [shape=box, style=filled, fontsize=10];
+
+  // Customer Site
+  CE [label="Customer Edge\nLocation: Johannesburg", fillcolor=lightyellow];
+  ASN_Customer [label="Customer ASN\nAS65001", fillcolor=lightblue];
+
+  // Provider Edge Routers
+  PE1 [label="Provider Edge 1\nLocation: Johannesburg", fillcolor=lightgray];
+  PE2 [label="Provider Edge 2\nLocation: Johannesburg", fillcolor=lightgray];
+
+  // Transit ASN
+  ASN_Transit [label="Transit ASN\nAS64500", fillcolor=lightblue];
+
+  // Internet Breakout
+  Breakout [label="Internet Gateway\nLocation: London", fillcolor=lightgray];
+  GlobalInternet [label="Global Internet", fillcolor=white];
+
+  // Connections
+  CE -> ASN_Customer [label="IP Routing"];
+  ASN_Customer -> PE1 [label="BGP Session\nPrimary\nLocalPref: 200"];
+  ASN_Customer -> PE2 [label="BGP Session\nBackup\nLocalPref: 100\nAS-Path Prepend"];
+  PE1 -> ASN_Transit [label="MPLS/IP Backbone"];
+  PE2 -> ASN_Transit [label="MPLS/IP Backbone"];
+  ASN_Transit -> Breakout [label="BGP Peering\nRoute Filtering\nPrefix Lists"];
+  Breakout -> GlobalInternet [label="Prefix Advertisement\nAS65001"];
+
+  // Policy Notes
+  PE1 -> PE2 [label="Route Reflector / Policy Sync", style=dashed, color=gray];
+}

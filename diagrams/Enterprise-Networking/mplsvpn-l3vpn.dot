@@ -1,0 +1,48 @@
+digraph MPLS_L3VPN_Enhanced {
+  rankdir=LR;
+  node [shape=box, style=filled, fontsize=10];
+
+  // Customer Edge Routers
+  CE1 [label="CE1\nCustomer Site A", fillcolor=lightyellow];
+  CE2 [label="CE2\nCustomer Site B", fillcolor=lightyellow];
+
+  // Provider Edge Routers with VRFs
+  PE1 [label="PE1\nVRF-A\nProvider Edge", fillcolor=lightblue];
+  PE2 [label="PE2\nVRF-A\nProvider Edge", fillcolor=lightblue];
+
+  // Provider Core Routers
+  P1 [label="P1\nProvider Core", fillcolor=lightgray];
+  P2 [label="P2\nProvider Core", fillcolor=lightgray];
+
+  // Connections from CE to PE
+  CE1 -> PE1 [label="IP Routing\n(Static or BGP)", fontsize=9];
+  CE2 -> PE2 [label="IP Routing\n(Static or BGP)", fontsize=9];
+
+  // MP-BGP between PE routers
+  PE1 -> PE2 [label="MP-BGP\nVPNv4 Routes\nRoute Target: RT-A", style=dashed, color=gray, fontsize=9];
+
+  // MPLS Label-Switched Path
+  PE1 -> P1 [label="MPLS Label Stack\nOuter: LSP to PE2\nInner: VPN Label", fontsize=9];
+  P1 -> P2 [label="MPLS Forwarding", fontsize=9];
+  P2 -> PE2 [label="MPLS Label Stack\nForward to VRF-A", fontsize=9];
+
+  // VPN Cloud
+  subgraph cluster_vpn {
+    label="L3VPN Service (VRF-A)";
+    style=dashed;
+    color=blue;
+    CE1;
+    CE2;
+  }
+
+  // MPLS Core
+  subgraph cluster_mpls {
+    label="MPLS VPN Transport";
+    style=dotted;
+    color=black;
+    PE1;
+    PE2;
+    P1;
+    P2;
+  }
+}
