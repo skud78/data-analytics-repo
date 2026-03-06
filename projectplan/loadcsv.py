@@ -1,81 +1,89 @@
 import pandas as pd
-from pathlib import Path
+from datetime import datetime
 
 # ---------------------------------------------------------
-# 1. Define the canonical template schema
+# CONFIG
 # ---------------------------------------------------------
-TEMPLATE_COLUMNS = [
-    "Domain","Subdomain","ProjectID","ProjectName","TaskID","TaskName",
-    "TaskDescription","StartDate","EndDate","DurationDays","DependencyTaskID",
-    "AssignedTo","Priority","Status","PercentComplete","Category","Notes"
-]
 
-# ---------------------------------------------------------
-# 2. Load and normalize all CSVs in a directory
-# ---------------------------------------------------------
-def load_portfolio_directory(base_path):
-    base = Path(base_path)
-    csv_files = list(base.glob("*.csv"))
+MASTER_CSV = "MASTER_PORTFOLIO.csv"
+OUTPUT_CSV = "PROJECTLIBRE_IMPORT.csv"
 
-    frames = []
-
-    for file in csv_files:
-        df = pd.read_csv(file)
-
-        # Add missing columns
-        for col in TEMPLATE_COLUMNS:
-            if col not in df.columns:
-                df[col] = None
-
-        # Reorder columns
-        df = df[TEMPLATE_COLUMNS]
-
-        # Track source file
-        df["SourceFile"] = file.name
-
-        frames.append(df)
-
-    # Merge all CSVs
-    master = pd.concat(frames, ignore_index=True)
-
-    return master
+# ProjectLibre date format
+PL_DATE_FORMAT = "%d/%m/%y"
 
 # ---------------------------------------------------------
-# 3. Create a Gantt-ready export
+# LOAD MASTER CSV
 # ---------------------------------------------------------
-def create_gantt_export(df):
-    gantt = df.copy()
 
-    # GanttProject expects:
-    # TaskID, TaskName, StartDate, EndDate, Duration, Completion, Predecessors
-
-    gantt_export = pd.DataFrame({
-        "ID": gantt["TaskID"],
-        "Name": gantt["TaskName"],
-        "Start": gantt["StartDate"],
-        "End": gantt["EndDate"],
-        "Duration": gantt["DurationDays"],
-        "Completion": gantt["PercentComplete"],
-        "Predecessors": gantt["DependencyTaskID"],
-        "Project": gantt["ProjectName"],
-        "Domain": gantt["Domain"],
-        "Subdomain": gantt["Subdomain"]
-    })
-
-    return gantt_export
+df = pd.read_csv(MASTER_CSV)
 
 # ---------------------------------------------------------
-# 4. Run the pipeline
+# CREATE NUMERIC IDs FOR PROJECTLIBRE
 # ---------------------------------------------------------
-if __name__ == "__main__":
-    base_path = "/Users/Sudhir/OneDrive/Portfolio/"
 
-    master_df = load_portfolio_directory(base_path)
-    print("Loaded portfolio:", master_df.shape)
+df = df.reset_index().rename(columns={"index": "ID"})
+df["ID"] = df["ID"] + 1  # ProjectLibre IDs start at 1
 
-    gantt_df = create_gantt_export(master_df)
-    print("Gantt export:", gantt_df.shape)
+# ---------------------------------------------------------
+# MAP TASKID → NUMERIC ID (for predecessors)
+# ---------------------------------------------------------
 
-    # Save outputs
-    master_df.to_csv(base_path + "MASTER_PORTFOLIO_COMBINED.csv", index=False)
-    gantt_df.to_csv(base_path + "GANTT_IMPORT.csv", index=False)
+taskid_to_numeric = dict(zip(df["TaskID"], df["ID"]))
+
+def map_predecessor(dep):
+    if pd.isna(dep) or dep == "":
+        return ""
+    return ",".join(str(taskid_to_numeric[d.strip()]) for d in dep.split(","))
+
+df["Predecessors"] = df["DependencyTaskID"].apply(map_predecessor)
+
+# ---------------------------------------------------------
+# FORMAT DURATION FOR PROJECTLIBRE
+# ---------------------------------------------------------
+
+df["Duration"] = df["DurationDays"].astype(str) + "d"
+
+# ---------------------------------------------------------
+# FORMAT DATES FOR PROJECTLIBRE
+# ---------------------------------------------------------
+
+def format_date(d):
+    if pd.isna(d) or d == "":
+        return ""
+    return datetime.strptime(str(d), "%Y-%m-%d").strftime(PL_DATE_FORMAT)
+
+df["Start"] = df["StartDate"].apply(format_date)
+df["Finish"] = df["EndDate"].apply(format_date)
+
+# ---------------------------------------------------------
+# RESOURCE NAMES
+# ---------------------------------------------------------
+
+df["ResourceNames"] = df["AssignedTo"].fillna("")
+
+# ---------------------------------------------------------
+# SELECT PROJECTLIBRE COLUMNS
+# ---------------------------------------------------------
+
+pl_df = df[[
+    "ID",
+    "TaskName",
+    "Duration",
+    "Start",
+    "Finish",
+    "PercentComplete",
+    "Predecessors",
+    "ResourceNames"
+]]
+
+pl_df = pl_df.rename(columns={
+    "TaskName": "Name"
+})
+
+# ---------------------------------------------------------
+# EXPORT
+# ---------------------------------------------------------
+
+pl_df.to_csv(OUTPUT_CSV, index=False)
+
+print("ProjectLibre CSV generated:", OUTPUT_CSV)
