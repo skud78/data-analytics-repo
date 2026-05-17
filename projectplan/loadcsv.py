@@ -5,8 +5,8 @@ from datetime import datetime
 # CONFIG
 # ---------------------------------------------------------
 
-MASTER_CSV = "MASTER_PORTFOLIO.csv"
-OUTPUT_CSV = "PROJECTLIBRE_IMPORT.csv"
+MASTER_CSV = "/home/sudhir/OneDrive/pers/ctl/project-plans/master-plans.csv"
+OUTPUT_CSV = "/home/sudhir/OneDrive/pers/ctl/project-plans/projectlibre_import.csv"
 
 # ProjectLibre date format
 PL_DATE_FORMAT = "%d/%m/%y"
@@ -15,7 +15,10 @@ PL_DATE_FORMAT = "%d/%m/%y"
 # LOAD MASTER CSV
 # ---------------------------------------------------------
 
-df = pd.read_csv(MASTER_CSV)
+df = pd.read_csv(
+    MASTER_CSV)
+    
+
 
 # ---------------------------------------------------------
 # CREATE NUMERIC IDs FOR PROJECTLIBRE
