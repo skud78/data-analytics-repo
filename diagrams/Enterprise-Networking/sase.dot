@@ -1,0 +1,44 @@
+digraph SASE_Architecture {
+    rankdir=LR;
+    node [shape=rectangle, style=filled, fillcolor=lightgray];
+
+    subgraph cluster_users {
+        label="Users & Sites";
+        style=dashed;
+        Branch [label="Branch Site\n(SD-WAN Edge)"];
+        RemoteUser [label="Remote User\n(Client/Browser)"];
+        MobileUser [label="Mobile User\n(Client/VPN-less)"];
+    }
+
+    SASE_POP1 [shape=ellipse, fillcolor=lightblue, label="SASE PoP 1\n(SWG, CASB,\nZTNA, FWaaS, SD-WAN)"];
+    SASE_POP2 [shape=ellipse, fillcolor=lightblue, label="SASE PoP 2\n(SWG, CASB,\nZTNA, FWaaS, SD-WAN)"];
+
+    Internet [shape=cloud, label="Public Internet"];
+    MPLS [shape=cloud, label="MPLS (optional)"];
+
+    SaaS [shape=rectangle, fillcolor=white, label="SaaS Apps\n(O365, Salesforce, etc.)"];
+    IaaS [shape=rectangle, fillcolor=white, label="Cloud Workloads\n(Azure/AWS/GCP)"];
+    DC [shape=rectangle, fillcolor=white, label="Data Centre\n(Private Apps)"];
+
+    Branch -> Internet;
+    RemoteUser -> Internet;
+    MobileUser -> Internet;
+
+    Internet -> SASE_POP1;
+    Internet -> SASE_POP2;
+
+    MPLS -> SASE_POP1 [style=dashed, label="optional"];
+    MPLS -> SASE_POP2 [style=dashed, label="optional"];
+
+    SASE_POP1 -> SaaS;
+    SASE_POP1 -> IaaS;
+    SASE_POP1 -> DC;
+
+    SASE_POP2 -> SaaS;
+    SASE_POP2 -> IaaS;
+    SASE_POP2 -> DC;
+
+    PolicyEngine [shape=hexagon, fillcolor=lightyellow, label="Central Policy\n& Identity (Zero Trust)"];
+    PolicyEngine -> SASE_POP1;
+    PolicyEngine -> SASE_POP2;
+}

@@ -1,0 +1,30 @@
+digraph IPTransit {
+    rankdir=LR;
+    node [shape=box, style=rounded];
+
+    CustomerISP   [label="Customer Network\n(ASN X)"];
+    TransitISP    [label="IP Transit Provider\n(Upstream ISP / Telco\nASN Y)"];
+    InternetCloud [label="Global Internet\n(Other ASNs)", shape=ellipse, style="filled,rounded", fillcolor="#e0f0ff"];
+
+    // Physical / logical connection
+    CustomerISP -> TransitISP [label="BGP Session\n(Full Routes)", color="blue"];
+    TransitISP -> CustomerISP [label="BGP Session\n(Default + Full Table)", color="blue"];
+
+    // Transit provider’s upstream connectivity
+    TransitISP -> InternetCloud [label="Multiple Peers / Upstreams\n(Transit + Peering)", color="darkgreen"];
+
+    // Traffic flow examples
+    CustomerISP -> InternetCloud [label="Customer Traffic\n(to any Internet prefix)", style=dashed, color="gray40"];
+    InternetCloud -> CustomerISP [label="Return Traffic\n(from Internet to Customer)", style=dashed, color="gray40"];
+
+    // Legend
+    subgraph cluster_legend {
+        label="Legend";
+        fontsize=10;
+        style="dashed,rounded";
+        Legend1 [label="BGP: Route Exchange\n(Full Internet Table)", shape=note];
+        Legend2 [label="Data Traffic Flow", shape=note];
+
+        Legend1 -> Legend2 [style=invis];
+    }
+}

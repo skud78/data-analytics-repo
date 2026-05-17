@@ -1,0 +1,92 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="815pt" height="262pt" viewBox="0.00 0.00 814.63 261.97">
+<g id="graph0" class="graph" transform="translate(4,257.9700012207031) scale(1)" data-name="IPTransit">
+
+<polygon fill="white" stroke="none" points="-4,4 -4,-257.97 810.63,-257.97 810.63,4 -4,4" style=""/>
+<g id="clust1" class="cluster" data-name="cluster_legend">
+
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M20,-167.97C20,-167.97 451.38,-167.97 451.38,-167.97 457.38,-167.97 463.38,-173.97 463.38,-179.97 463.38,-179.97 463.38,-233.97 463.38,-233.97 463.38,-239.97 457.38,-245.97 451.38,-245.97 451.38,-245.97 20,-245.97 20,-245.97 14,-245.97 8,-239.97 8,-233.97 8,-233.97 8,-179.97 8,-179.97 8,-173.97 14,-167.97 20,-167.97" style=""/>
+<text text-anchor="middle" x="235.69" y="-232.97" font-family="Times,serif" font-size="10.00" style="">Legend</text>
+</g>
+<!-- CustomerISP -->
+<g id="node1" class="node" pointer-events="visible" data-name="CustomerISP">
+
+<path fill="none" stroke="black" d="M136.81,-72.57C136.81,-72.57 37.95,-72.57 37.95,-72.57 31.95,-72.57 25.95,-66.57 25.95,-60.57 25.95,-60.57 25.95,-43.36 25.95,-43.36 25.95,-37.36 31.95,-31.36 37.95,-31.36 37.95,-31.36 136.81,-31.36 136.81,-31.36 142.81,-31.36 148.81,-37.36 148.81,-43.36 148.81,-43.36 148.81,-60.57 148.81,-60.57 148.81,-66.57 142.81,-72.57 136.81,-72.57" style=""/>
+<text text-anchor="middle" x="87.38" y="-56.17" font-family="Times,serif" font-size="14.00" style="">Customer Network</text>
+<text text-anchor="middle" x="87.38" y="-39.37" font-family="Times,serif" font-size="14.00" style="">(ASN X)</text>
+</g>
+<!-- TransitISP -->
+<g id="node2" class="node" pointer-events="visible" data-name="TransitISP">
+
+<path fill="none" stroke="black" d="M455.43,-146.37C455.43,-146.37 338.26,-146.37 338.26,-146.37 332.26,-146.37 326.26,-140.37 326.26,-134.37 326.26,-134.37 326.26,-99.57 326.26,-99.57 326.26,-93.57 332.26,-87.57 338.26,-87.57 338.26,-87.57 455.43,-87.57 455.43,-87.57 461.43,-87.57 467.43,-93.57 467.43,-99.57 467.43,-99.57 467.43,-134.37 467.43,-134.37 467.43,-140.37 461.43,-146.37 455.43,-146.37" style=""/>
+<text text-anchor="middle" x="396.84" y="-129.57" font-family="Times,serif" font-size="14.00" style="">IP Transit Provider</text>
+<text text-anchor="middle" x="396.84" y="-112.77" font-family="Times,serif" font-size="14.00" style="">(Upstream ISP / Telco</text>
+<text text-anchor="middle" x="396.84" y="-95.97" font-family="Times,serif" font-size="14.00" style="">ASN Y)</text>
+</g>
+<!-- CustomerISP&#45;&gt;TransitISP -->
+<g id="edge1" class="edge" data-name="CustomerISP-&gt;TransitISP">
+
+<path fill="none" stroke="blue" d="M116.22,-72.99C132.86,-84.33 154.96,-97.33 176.76,-103.97 221,-117.44 272.54,-121.06 314.51,-121.14" style=""/>
+<polygon fill="blue" stroke="blue" points="314.3,-124.64 324.28,-121.08 314.26,-117.64 314.3,-124.64" style=""/>
+<text text-anchor="middle" x="238.83" y="-141.97" font-family="Times,serif" font-size="14.00" style="">BGP Session</text>
+<text text-anchor="middle" x="238.83" y="-125.17" font-family="Times,serif" font-size="14.00" style="">(Full Routes)</text>
+</g>
+<!-- InternetCloud -->
+<g id="node3" class="node" pointer-events="visible" data-name="InternetCloud">
+
+<ellipse fill="#e0f0ff" stroke="black" cx="735.12" cy="-35.97" rx="71.53" ry="29.33" style=""/>
+<text text-anchor="middle" x="735.12" y="-40.17" font-family="Times,serif" font-size="14.00" style="">Global Internet</text>
+<text text-anchor="middle" x="735.12" y="-23.37" font-family="Times,serif" font-size="14.00" style="">(Other ASNs)</text>
+</g>
+<!-- CustomerISP&#45;&gt;InternetCloud -->
+<g id="edge4" class="edge" data-name="CustomerISP-&gt;InternetCloud">
+
+<path fill="none" stroke="#666666" stroke-dasharray="5,2" d="M149.04,-50.13C195.53,-48.75 261.26,-46.84 318.89,-45.37 434.38,-42.41 567.95,-39.47 651.73,-37.69" style=""/>
+<polygon fill="#666666" stroke="#666666" points="651.78,-41.19 661.7,-37.47 651.63,-34.19 651.78,-41.19" style=""/>
+<text text-anchor="middle" x="396.84" y="-66.97" font-family="Times,serif" font-size="14.00" style="">Customer Traffic</text>
+<text text-anchor="middle" x="396.84" y="-50.17" font-family="Times,serif" font-size="14.00" style="">(to any Internet prefix)</text>
+</g>
+<!-- TransitISP&#45;&gt;CustomerISP -->
+<g id="edge2" class="edge" data-name="TransitISP-&gt;CustomerISP">
+
+<path fill="none" stroke="blue" d="M342.19,-87.18C323.4,-76.98 305.74,-67.75 300.89,-66.37 255.4,-53.35 202.28,-49.75 160.54,-49.4" style=""/>
+<polygon fill="blue" stroke="blue" points="160.6,-45.9 150.59,-49.39 160.59,-52.9 160.6,-45.9" style=""/>
+<text text-anchor="middle" x="238.83" y="-87.97" font-family="Times,serif" font-size="14.00" style="">BGP Session</text>
+<text text-anchor="middle" x="238.83" y="-71.17" font-family="Times,serif" font-size="14.00" style="">(Default + Full Table)</text>
+</g>
+<!-- TransitISP&#45;&gt;InternetCloud -->
+<g id="edge3" class="edge" data-name="TransitISP-&gt;InternetCloud">
+
+<path fill="none" stroke="darkgreen" d="M467.52,-100.18C524.24,-86.52 604.04,-67.3 661.53,-53.45" style=""/>
+<polygon fill="darkgreen" stroke="darkgreen" points="662.35,-56.85 671.25,-51.11 660.71,-50.05 662.35,-56.85" style=""/>
+<text text-anchor="middle" x="569.2" y="-114.97" font-family="Times,serif" font-size="14.00" style="">Multiple Peers / Upstreams</text>
+<text text-anchor="middle" x="569.2" y="-98.17" font-family="Times,serif" font-size="14.00" style="">(Transit + Peering)</text>
+</g>
+<!-- InternetCloud&#45;&gt;CustomerISP -->
+<g id="edge5" class="edge" data-name="InternetCloud-&gt;CustomerISP">
+
+<path fill="none" stroke="#666666" stroke-dasharray="5,2" d="M669.29,-23.91C587.51,-10.34 442.6,8.27 318.89,-4.37 265.11,-9.86 205.36,-22.39 160.17,-33.21" style=""/>
+<polygon fill="#666666" stroke="#666666" points="159.37,-29.8 150.48,-35.56 161.02,-36.61 159.37,-29.8" style=""/>
+<text text-anchor="middle" x="396.84" y="-25.97" font-family="Times,serif" font-size="14.00" style="">Return Traffic</text>
+<text text-anchor="middle" x="396.84" y="-9.17" font-family="Times,serif" font-size="14.00" style="">(from Internet to Customer)</text>
+</g>
+<!-- Legend1 -->
+<g id="node4" class="node" pointer-events="visible" data-name="Legend1">
+
+<polygon fill="none" stroke="black" points="152.64,-217.57 16.12,-217.57 16.12,-176.36 158.64,-176.36 158.64,-211.57 152.64,-217.57" style=""/>
+<polyline fill="none" stroke="black" points="152.64,-217.57 152.64,-211.57" style=""/>
+<polyline fill="none" stroke="black" points="158.64,-211.57 152.64,-211.57" style=""/>
+<text text-anchor="middle" x="87.38" y="-201.17" font-family="Times,serif" font-size="14.00" style="">BGP: Route Exchange</text>
+<text text-anchor="middle" x="87.38" y="-184.37" font-family="Times,serif" font-size="14.00" style="">(Full Internet Table)</text>
+</g>
+<!-- Legend2 -->
+<g id="node5" class="node" pointer-events="visible" data-name="Legend2">
+
+<polygon fill="none" stroke="black" points="449.41,-214.97 338.27,-214.97 338.27,-178.97 455.41,-178.97 455.41,-208.97 449.41,-214.97" style=""/>
+<polyline fill="none" stroke="black" points="449.41,-214.97 449.41,-208.97" style=""/>
+<polyline fill="none" stroke="black" points="455.41,-208.97 449.41,-208.97" style=""/>
+<text text-anchor="middle" x="396.84" y="-192.77" font-family="Times,serif" font-size="14.00" style="">Data Traffic Flow</text>
+</g>
+<!-- Legend1&#45;&gt;Legend2 -->
+</g>
+</svg>

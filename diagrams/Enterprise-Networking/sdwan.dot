@@ -1,0 +1,89 @@
+digraph SDWAN_Architecture {
+    rankdir=LR;
+    node [shape=rectangle, style=filled, fillcolor=lightgray];
+
+    subgraph cluster_branch1 {
+        label="Branch Site 1";
+        style=dashed;
+        B1_LAN [label="Branch 1 LAN"];
+        B1_CPE [label="SD-WAN Edge\n(CPE)"];
+        B1_LAN -> B1_CPE;
+    }
+
+    subgraph cluster_branch2 {
+        label="Branch Site 2";
+        style=dashed;
+        B2_LAN [label="Branch 2 LAN"];
+        B2_CPE [label="SD-WAN Edge\n(CPE)"];
+        B2_LAN -> B2_CPE;
+    }
+
+    subgraph cluster_dc {
+        label="Data Centre";
+        style=dashed;
+        DC_LAN [label="DC LAN / Servers"];
+        DC_CPE [label="SD-WAN Edge\n(DC)"];
+        DC_LAN -> DC_CPE;
+    }
+
+    SDWAN_Controller [shape=ellipse, fillcolor=lightblue, label="SD-WAN Controller\n(Orchestrator)"];
+
+    MPLS [shape=cloud, label="MPLS"];
+    INET [shape=cloud, label="Internet"];
+    LTE [shape=cloud, label="LTE"];
+
+    B1_CPE -> MPLS;
+    B1_CPE -> INET;
+    B1_CPE -> LTE;
+
+    B2_CPE -> MPLS;
+    B2_CPE -> INET;
+
+    DC_CPE -> MPLS;
+    DC_CPE -> INET;
+
+    SDWAN_Controller -> B1_CPE [label="Policies / Control"];
+    SDWAN_Controller -> B2_CPE [label="Policies / Control"];
+    SDWAN_Controller -> DC_CPE [label="Policies / Control"];
+}
+
+
+digraph SDWAN_Tunnels {
+    rankdir=LR;
+    node [shape=rectangle, style=filled, fillcolor=lightgray];
+
+    subgraph cluster_branch {
+        label="Branch Site";
+        style=dashed;
+        B_CPE [label="SD-WAN Edge\n(Branch)"];
+    }
+
+    subgraph cluster_dc {
+        label="Data Centre";
+        style=dashed;
+        DC_CPE [label="SD-WAN Edge\n(Data Centre)"];
+    }
+
+    MPLS [shape=cloud, label="MPLS Underlay"];
+    INET [shape=cloud, label="Internet Underlay"];
+    LTE [shape=cloud, label="LTE/5G Underlay"];
+
+    // Underlay connections
+    B_CPE -> MPLS;
+    B_CPE -> INET;
+    B_CPE -> LTE;
+
+    DC_CPE -> MPLS;
+    DC_CPE -> INET;
+
+    // Overlay tunnels
+    B_CPE -> DC_CPE [label="IPsec Tunnel", color="blue"];
+    B_CPE -> DC_CPE [label="DTLS Tunnel", color="green", style="dashed"];
+    B_CPE -> DC_CPE [label="Proprietary SD-WAN Tunnel\n(FEC, Duplication, App-Aware)", color="red", style="bold"];
+
+    // Controller
+    Controller [shape=ellipse, fillcolor=lightblue, label="SD-WAN Controller\n(Control Plane)"];
+    Controller -> B_CPE [label="Control Tunnel"];
+    Controller -> DC_CPE [label="Control Tunnel"];
+
+}

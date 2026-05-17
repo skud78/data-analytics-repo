@@ -1,0 +1,39 @@
+digraph SDWAN_Tunnels {
+    rankdir=LR;
+    node [shape=rectangle, style=filled, fillcolor=lightgray];
+
+    subgraph cluster_branch {
+        label="Branch Site";
+        style=dashed;
+        B_CPE [label="SD-WAN Edge\n(Branch)"];
+    }
+
+    subgraph cluster_dc {
+        label="Data Centre";
+        style=dashed;
+        DC_CPE [label="SD-WAN Edge\n(Data Centre)"];
+    }
+
+    MPLS [shape=cloud, label="MPLS Underlay"];
+    INET [shape=cloud, label="Internet Underlay"];
+    LTE [shape=cloud, label="LTE/5G Underlay"];
+
+    // Underlay connections
+    B_CPE -> MPLS;
+    B_CPE -> INET;
+    B_CPE -> LTE;
+
+    DC_CPE -> MPLS;
+    DC_CPE -> INET;
+
+    // Overlay tunnels
+    B_CPE -> DC_CPE [label="IPsec Tunnel", color="blue"];
+    B_CPE -> DC_CPE [label="DTLS Tunnel", color="green", style="dashed"];
+    B_CPE -> DC_CPE [label="Proprietary SD-WAN Tunnel\n(FEC, Duplication, App-Aware)", color="red", style="bold"];
+
+    // Controller
+    Controller [shape=ellipse, fillcolor=lightblue, label="SD-WAN Controller\n(Control Plane)"];
+    Controller -> B_CPE [label="Control Tunnel"];
+    Controller -> DC_CPE [label="Control Tunnel"];
+
+}
