@@ -1,7 +1,7 @@
-from time_series_loader import load_timeseries
-from time_series_eda import ts_eda
-from forecasting_arima import train_arima, forecast_arima
-from evaluation_timeseries import evaluate_forecast
+from analytics.timeseries.time_series_loader import load_timeseries
+from analytics.timeseries.time_series_eda import ts_eda
+from analytics.forecasting.forecasting_arima import train_arima, forecast_arima
+from analytics.timeseries.evaluation_timeseries import evaluate_forecast
 
 # 1. Load
 df = load_timeseries("/home/sudhir/OneDrive/prof/sw/data-analytics/sales_timeseries.csv")
