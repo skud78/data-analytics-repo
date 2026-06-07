@@ -7,6 +7,6 @@ def evaluate_nn(model, X_test, y_test):
     y_true = y_test.values
 
     return {
-        "rmse": mean_squared_error(y_true, preds, squared=False),
+        "rmse": mean_squared_error(y_true, preds) ** 0.5,      
         "r2": r2_score(y_true, preds)
     }

@@ -7,7 +7,7 @@ from analytics.neural_network.nn_train import train_nn
 from analytics.neural_network.nn_evaluate import evaluate_nn
 
 # 1. Load
-df = load_data("housing.csv")
+df = load_data("/home/sudhir/OneDrive/prof/comsci/ArtificialIntelligence/Machine Learning/sample-data/housing.csv")
 
 # 2. Clean
 df = clean_dataframe(df)
